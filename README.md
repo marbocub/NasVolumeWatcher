@@ -1,6 +1,6 @@
 # NasVolumeWatcher
 
-Tools to store the hash of files on the NAS into the database, written in Python.
+Tools to build the hash database for existed files on the NAS, written in Python.
 
 ## Prerequirements
 
@@ -16,7 +16,7 @@ You can install python libraries by using the pip.
 
 ## Environment Configuration
 
-This program uses the python-dotenv library and it is easy to configure using the file named ".env" for your environment.
+This program uses the python-dotenv library and it easy to configure using the file named ".env" for your environment.
 The program contains a file named ".env.example" is a template, so you can copy to ".env" and edit it.
 
     $ cp .env.example .env
@@ -50,8 +50,8 @@ This program contains two tools.
 
 ### volumefind.py
 
-This tool find all exist files and directories on the targeted NAS volumes excluding directories in deny list,
-caliculate their hashes if needed and stores them into the database.
+This tool find all existed files and directories on the targeted NAS volumes excluding directories in the deny list,
+calculate their hashes if needed and stores them into the database.
 
     usage:
         volumefind.py [-v] [-nf]
@@ -61,18 +61,14 @@ caliculate their hashes if needed and stores them into the database.
 
 If you use Synology's NAS, we recommend setup two tasks below.
 
-* python3 yourpath/volumefind.py -nf : Every 5 minutes.
-* python3 yourpath/volumefind.py : Every 1 hour.
+* python3 yourpath/volumefind.py -nf : Every 5 minutes. (hash calculateing only)
+* python3 yourpath/volumefind.py : Every 1 hour. (finding files and hash calculating)
 
 ### volumewatch.py
 
-This tool watches the creation / modification / deletion / movement of files on the NAS volumes and updates the database.
-When a file is created or modified, (re-)calculating the hash is needed.
-However, hash calculation takes a long time.
-Thus, watcher not set the hash column in the both case and set the "rehash" flag of the row of the "files" table in the case of a file is modified.
-
-The volumefind.py selects rows that needed to be (re-)hashed, calculates the hashes and updates the rows.
-So you can simply quickly update hashes by combining the two tools.
+This tool watches the creation / modification / deletion / movement of files or dirs on the NAS volumes and updates the database.
+When a file is created or modified, (re-)calculating the hash is needed, however, hash calculation takes a long time.
+Thus, this tool not set the hash column in the both case and set the "rehash" flag of the "files" table in the case of a file is modified.
 
     usage:
         volumewatch.py [-v]
@@ -83,6 +79,9 @@ This tool works permanently if no errors occurs.
 If you use Synology's NAS, we recommend setup a task below.
 
 * python3 yourpath/volumewatch.py : Every 1 hour or start by manual.
+
+The volumefind.py selects rows that needed to be (re-)hashed, calculates the hashes and updates the rows.
+So you can simply quickly update hashes by combining volumewatch.py and volumefind.py.
 
 ## License
 
