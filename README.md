@@ -25,11 +25,13 @@ The program contains a file named ".env.example" is a template, so you can copy 
 
 DB_* are environment variables that configure the database.
 
-* DB_HOST=hostname or IP address for the database (e.g. 127.0.0.1)
-* DB_PORT=port number of the database (e.g. 5432)
-* DB_DATABASE=name of database (e.g. filehashes)
-* DB_USERNAME=username of database
-* DB_PASSWORD=password of database user
+* DB_HOST=hostname or IP address for the database server (e.g. 127.0.0.1)
+* DB_PORT=port number of the database server (e.g. 5432)
+* DB_DATABASE=name of the database (e.g. "filehashes")
+* DB_USERNAME=username of the database user
+* DB_PASSWORD=password of the database user
+
+The database and the user must be created before using this program.
 
 ### target volumes and deny directories list
 
