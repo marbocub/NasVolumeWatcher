@@ -10,7 +10,7 @@ Tools to store the hash of files on the NAS into the database, written in Python
 * psycopg (>=3.0) library
 * watchdog library
 
-You can install python libraries by using the pip module below.
+You can install python libraries by using the pip.
 
     python3 -m pip install python-dotenv psycopg watchdog
 
@@ -23,7 +23,7 @@ The program contains a file named ".env.example" is a template, so you can copy 
 
 ### database configuration
 
-DB_* are variables that configure the database.
+DB_* are environment variables that configure the database.
 
 * DB_HOST=hostname or IP address for the database (e.g. 127.0.0.1)
 * DB_PORT=port number of the database (e.g. 5432)
@@ -33,11 +33,15 @@ DB_* are variables that configure the database.
 
 ### target directories and deny list
 
-VOLUMES and DENYLIST are variables that set target directories.
-You can configure multiple items separated by a comma.
+VOLUMES is an environment variable that sets the target volumes.
 
 * VOLUMES='/volume1'
+
+DENYLIST is an environment variable that sets the top-level directory to excludes from finding of volumes. The directory names matchs by prefix matching.
+
 * DENYLIST='@,report'
+
+You can configure multiple items separated by a comma for VOLUMES and DENYLIST.
 
 ## Tools
 
