@@ -1,14 +1,19 @@
 # NasVolumeWatcher
 
-Tools to build the hash database for existed files on the NAS, written in Python.
+Tools to build the hash database for existing files on the NAS, written in Python.
 
 ## Prerequirements
 
+Software:
+
 * Python >= 3.5
 * PostgreSQL
-* python-dotenv library
-* psycopg (>=3.0) library
-* watchdog library
+
+Python library:
+
+* python-dotenv
+* psycopg >=3.0
+* watchdog
 
 You can install python libraries by using the pip.
 
