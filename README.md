@@ -31,13 +31,14 @@ DB_* are environment variables that configure the database.
 * DB_USERNAME=username of database
 * DB_PASSWORD=password of database user
 
-### target directories and deny list
+### target volumes and deny directories list
 
 VOLUMES is an environment variable that sets the target volumes.
 
 * VOLUMES='/volume1'
 
-DENYLIST is an environment variable that sets the top-level directory to excludes from finding of volumes. The directory names matchs by prefix matching.
+DENYLIST is an environment variable that sets the top-level directory to excludes from finding of volumes.
+The directory names matchs by prefix matching.
 
 * DENYLIST='@,report'
 
@@ -49,7 +50,8 @@ This program contains two tools.
 
 ### volumefind.py
 
-Find files on NAS volumes, caliculate their hashes and stores them into the database.
+This tool find all exist files and directories on the targeted NAS volumes excluding directories in deny list,
+caliculate their hashes if needed and stores them into the database.
 
     usage:
         volumefind.py [-v] [-nf]
@@ -59,20 +61,26 @@ Find files on NAS volumes, caliculate their hashes and stores them into the data
 
 If you use Synology's NAS, we recommend setup two tasks below.
 
-* python3 yourpath/volumefind.py -nf : Every 5 munites.
+* python3 yourpath/volumefind.py -nf : Every 5 minutes.
 * python3 yourpath/volumefind.py : Every 1 hour.
 
 ### volumewatch.py
 
-Watch the creation/modification/deletion/movement of files on NAS volumes and store them into the database.
-This program works permanently if no errors occurs.
+This tool watches the creation / modification / deletion / movement of files on the NAS volumes and updates the database.
+When a file is created or modified, (re-)calculating the hash is needed.
+However, hash calculation takes a long time.
+Thus, watcher not set the hash column in the both case and set the "rehash" flag of the row of the "files" table in the case of a file is modified.
+
+The volumefind.py selects rows that needed to be (re-)hashed, calculates the hashes and updates the rows.
+So you can simply quickly update hashes by combining the two tools.
 
     usage:
         volumewatch.py [-v]
     options:
         -v    verbose mode
 
-If you use Synology's NAS, we recommend setup two tasks below.
+This tool works permanently if no errors occurs.
+If you use Synology's NAS, we recommend setup a task below.
 
 * python3 yourpath/volumewatch.py : Every 1 hour or start by manual.
 
